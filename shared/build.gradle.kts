@@ -1,18 +1,27 @@
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
+    id("co.touchlab.faktory.kmmbridge") version "0.3.4"
+    `maven-publish`
+    kotlin("native.cocoapods")
 }
 
+version = "0.1"
 kotlin {
     android()
-    
+
     listOf(
         iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach {
-        it.binaries.framework {
-            baseName = "shared"
+//        it.binaries.framework {
+//            baseName = "shared"
+//        }
+        cocoapods {
+            summary = "KMMBridgeSampleKotlin"
+            homepage = "https://touchlab.dev"
+            ios.deploymentTarget = "13"
         }
     }
 
@@ -53,4 +62,13 @@ android {
         minSdk = 21
         targetSdk = 32
     }
+}
+
+addGithubPackagesRepository()
+kmmbridge {
+    mavenPublishArtifacts()
+    githubReleaseVersions()
+    spm()
+    cocoapods("git@github.com:haiphamthanh/PublicPodspecs.git")
+    versionPrefix.set("0.3")
 }
