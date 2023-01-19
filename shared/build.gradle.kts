@@ -69,6 +69,6 @@ kmmbridge {
     mavenPublishArtifacts()
     githubReleaseVersions()
     spm()
-    cocoapods("git@github.com:haiphamthanh/PublicPodspecs.git")
-    versionPrefix.set("0.3")
+//    cocoapods("git@github.com:haiphamthanh/PublicPodspecs.git")
+//    versionPrefix.set("0.3")
 }
