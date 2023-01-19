@@ -1,19 +1,27 @@
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    //trick: for the same plugin versions in all sub-modules
-    id("com.android.application").version("7.3.1").apply(false)
-    id("com.android.library").version("7.3.1").apply(false)
-    kotlin("android").version("1.7.10").apply(false)
-    kotlin("multiplatform").version("1.7.10").apply(false)
+    kotlin("multiplatform") version libs.versions.kotlin.get() apply false
+    kotlin("plugin.serialization") version libs.versions.kotlin.get() apply false
+    id("com.android.library") version libs.versions.android.gradle.plugin.get() apply false
+    id("co.touchlab.faktory.kmmbridge") version libs.versions.kmmBridge.get() apply false
+    id("com.squareup.sqldelight") version libs.versions.sqlDelight.get() apply false
 }
 
 allprojects {
     repositories {
         google()
-        mavenLocal()
         mavenCentral()
     }
 }
 
-tasks.register("clean", Delete::class) {
+subprojects {
+    val GROUP: String by project
+    val LIBRARY_VERSION: String by project
+
+    group = GROUP
+    version = LIBRARY_VERSION
+}
+
+tasks.register<Delete>("clean") {
     delete(rootProject.buildDir)
 }
