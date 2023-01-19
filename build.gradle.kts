@@ -6,6 +6,14 @@ plugins {
     kotlin("multiplatform").version("1.7.10").apply(false)
 }
 
+allprojects {
+    repositories {
+        google()
+        mavenLocal()
+        mavenCentral()
+    }
+}
+
 tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
 }
