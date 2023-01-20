@@ -12,37 +12,23 @@ import kotlinx.datetime.Clock
 internal const val SETTINGS_KEY = "KMMBridgeKickStartSettings"
 internal const val DB_NAME = "KMMBridgeKickStartDb"
 
-internal abstract class BaseServiceLocator(private val analyticsHandle: AnalyticsHandle) : ServiceLocator {
+internal abstract class BaseServiceLocator : ServiceLocator {
 
     override val breedRepository: BreedRepository by lazy {
         BreedRepository(
             dbHelper = databaseHelper,
             settings = settings,
             dogApi = dogApi,
-            clock = Clock.System,
-            breedAnalytics = breedAnalytics
+            clock = Clock.System
         )
     }
 
-    override val appAnalytics: AppAnalytics
-        get() = analyticsHandle.appAnalytics
-
-    override val breedAnalytics: BreedAnalytics
-        get() = analyticsHandle.breedAnalytics
-
-    override val httpClientAnalytics: HttpClientAnalytics
-        get() = analyticsHandle.httpClientAnalytics
-
     private val databaseHelper: DatabaseHelper by lazy {
-        DatabaseHelper(
-            sqlDriver = sqlDriver,
-            backgroundDispatcher = Dispatchers.Default,
-            breedAnalytics = breedAnalytics
-        )
+        DatabaseHelper(sqlDriver = sqlDriver, backgroundDispatcher = Dispatchers.Default)
     }
 
     private val dogApi: DogApi by lazy {
-        DogApiImpl(engine = clientEngine, httpClientAnalytics = httpClientAnalytics, breedAnalytics = breedAnalytics)
+        DogApiImpl(engine = clientEngine)
     }
 
     protected abstract val sqlDriver: SqlDriver

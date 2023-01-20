@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.flowOn
 
 internal class DatabaseHelper(
     sqlDriver: SqlDriver,
-    private val breedAnalytics: BreedAnalytics,
     private val backgroundDispatcher: CoroutineDispatcher
 ) {
     private val dbRef: KMMBridgeKickStartDb = KMMBridgeKickStartDb(sqlDriver)
@@ -25,7 +24,7 @@ internal class DatabaseHelper(
             .flowOn(backgroundDispatcher)
 
     suspend fun insertBreeds(breeds: List<String>) {
-        breedAnalytics.insertingBreedsToDatabase(breeds.size)
+        BreedAnalytics.insertingBreedsToDatabase(breeds.size)
         dbRef.transactionWithContext(backgroundDispatcher) {
             breeds.forEach { breed ->
                 dbRef.tableQueries.insertBreed(breed)
@@ -41,14 +40,14 @@ internal class DatabaseHelper(
             .flowOn(backgroundDispatcher)
 
     suspend fun deleteAll() {
-        breedAnalytics.databaseCleared()
+        BreedAnalytics.databaseCleared()
         dbRef.transactionWithContext(backgroundDispatcher) {
             dbRef.tableQueries.deleteAll()
         }
     }
 
     suspend fun updateFavorite(breedId: Long, favorite: Boolean) {
-        breedAnalytics.favoriteSaved(id = breedId, favorite = favorite)
+        BreedAnalytics.favoriteSaved(id = breedId, favorite = favorite)
         dbRef.transactionWithContext(backgroundDispatcher) {
             dbRef.tableQueries.updateFavorite(favorite, breedId)
         }

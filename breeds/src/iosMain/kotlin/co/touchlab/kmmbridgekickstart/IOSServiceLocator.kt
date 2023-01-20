@@ -10,15 +10,14 @@ import io.ktor.client.engine.*
 import io.ktor.client.engine.darwin.*
 import platform.Foundation.NSUserDefaults
 
-fun breedStartup(analyticsHandle: AnalyticsHandle): BreedRepository {
-    val locator = IOSServiceLocator(NSUserDefaults(suiteName = SETTINGS_KEY), analyticsHandle = analyticsHandle)
+fun breedStartup(): BreedRepository {
+    val locator = IOSServiceLocator(NSUserDefaults(suiteName = SETTINGS_KEY))
     return locator.breedRepository
 }
 
 internal class IOSServiceLocator(
-    userDefaults: NSUserDefaults,
-    analyticsHandle: AnalyticsHandle
-) : BaseServiceLocator(analyticsHandle) {
+    userDefaults: NSUserDefaults
+) : BaseServiceLocator() {
 
     override val sqlDriver: SqlDriver by lazy {
         NativeSqliteDriver(KMMBridgeKickStartDb.Schema, DB_NAME)
