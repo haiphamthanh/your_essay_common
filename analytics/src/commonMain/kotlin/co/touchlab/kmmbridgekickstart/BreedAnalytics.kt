@@ -1,6 +1,6 @@
 package co.touchlab.kmmbridgekickstart
 
-object BreedAnalytics {
+class BreedAnalytics internal constructor() {
 
     fun favoriteClicked(id: Long) {
         sendEvent("favoriteClicked", "favoriteId" to id)
@@ -24,6 +24,10 @@ object BreedAnalytics {
 
     fun updatingBreedsError(throwable: Throwable) {
         sendEvent("errorDownloadingBreedList", "throwable" to throwable)
+    }
+
+    fun clearingBreedViewModel() {
+        sendEvent("clearingBreedViewModel")
     }
 
     fun fetchingBreedsFromNetwork() {
