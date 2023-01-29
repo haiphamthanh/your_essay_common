@@ -3,9 +3,24 @@ pluginManagement {
         google()
         gradlePluginPortal()
         mavenCentral()
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+    }
+    resolutionStrategy {
+        eachPlugin {
+            if (requested.id.id.startsWith("com.google.cloud.tools.appengine")) {
+                useModule("com.google.cloud.tools:appengine-gradle-plugin:${requested.version}")
+            }
+        }
     }
 }
 
-enableFeaturePreview("VERSION_CATALOGS")
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
 
-include("breeds", "analytics", "allshared")
+rootProject.name = "kmm_base"
+include(":androidApp")
+include(":shared")

@@ -1,27 +1,49 @@
-@Suppress("DSL_SCOPE_VIOLATION")
-plugins {
-    kotlin("multiplatform") version libs.versions.kotlin.get() apply false
-    kotlin("plugin.serialization") version libs.versions.kotlin.get() apply false
-    id("com.android.library") version libs.versions.android.gradle.plugin.get() apply false
-    id("co.touchlab.faktory.kmmbridge") version libs.versions.kmmBridge.get() apply false
-    id("com.squareup.sqldelight") version libs.versions.sqlDelight.get() apply false
-}
+buildscript {
+    val kotlinVersion: String by project
+    println(kotlinVersion)
 
-allprojects {
     repositories {
         google()
         mavenCentral()
+        gradlePluginPortal()
+        maven(uri("https://plugins.gradle.org/m2/")) // For kotlinter-gradle
+    }
+
+    dependencies {
+        // keeping this here to allow AS to automatically update
+        classpath("com.android.tools.build:gradle:7.4.0")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
+        classpath("org.jetbrains.kotlin:kotlin-serialization:${kotlinVersion}")
+
+        with(Dependencies.Gradle) {
+            classpath(sqlDelight)
+            classpath(shadow)
+            classpath(kotlinter)
+            classpath(gradleVersionsPlugin)
+            classpath("com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:1.8.0-1.0.8")
+            classpath("com.rickclephas.kmp:kmp-nativecoroutines-gradle-plugin:${Versions.kmpNativeCoroutinesVersion}")
+        }
     }
 }
 
-subprojects {
-    val GROUP: String by project
-    val LIBRARY_VERSION: String by project
+allprojects {
+    apply(plugin = "org.jmailen.kotlinter")
 
-    group = GROUP
-    version = LIBRARY_VERSION
+    repositories {
+        google()
+        mavenCentral()
+        maven(url = "https://maven.pkg.jetbrains.space/kotlin/p/kotlin/kotlin-js-wrappers")
+        maven(url = "https://jitpack.io")
+        maven(url = "https://maven.pkg.jetbrains.space/public/p/kotlinx-coroutines/maven")
+    }
 }
 
-tasks.register<Delete>("clean") {
-    delete(rootProject.buildDir)
+// On Apple Silicon we need Node.js 16.0.0
+// https://youtrack.jetbrains.com/issue/KT-49109
+rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin::class) {
+    rootProject.the(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension::class).nodeVersion = "16.0.0"
 }
+
+//tasks.register("clean", Delete::class) {
+//    delete(rootProject.buildDir)
+//}
