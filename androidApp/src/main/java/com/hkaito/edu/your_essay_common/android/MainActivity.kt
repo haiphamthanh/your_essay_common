@@ -1,4 +1,4 @@
-package com.hkaito.edu.kmm_base.android
+package com.hkaito.edu.your_essay_common.android
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -8,7 +8,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.hkaito.edu.kmm_base.Greeting
+import com.hkaito.edu.your_essay_common.Greeting
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

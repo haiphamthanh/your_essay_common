@@ -81,7 +81,6 @@ kotlin {
             dependencies {
                 implementation(Dependencies.Koin.test)
                 implementation(Dependencies.Kotlinx.coroutinesTest)
-                implementation(kotlin("test"))
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
             }
@@ -160,7 +159,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-    namespace = "com.hkaito.edu.kmm_base"
+    namespace = "com.hkaito.edu.your_essay_common"
 }
 
 // Data base

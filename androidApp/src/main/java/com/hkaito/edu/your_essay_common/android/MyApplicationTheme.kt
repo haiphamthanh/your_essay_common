@@ -1,4 +1,4 @@
-package com.hkaito.edu.kmm_base.android
+package com.hkaito.edu.your_essay_common.android
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.shape.RoundedCornerShape

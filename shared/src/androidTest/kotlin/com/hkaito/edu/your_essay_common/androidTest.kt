@@ -1,4 +1,4 @@
-package com.hkaito.edu.kmm_base
+package com.hkaito.edu.your_essay_common
 
 import org.junit.Assert.assertTrue
 import org.junit.Test

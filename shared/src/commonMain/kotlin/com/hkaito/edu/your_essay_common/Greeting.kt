@@ -1,4 +1,4 @@
-package com.hkaito.edu.kmm_base
+package com.hkaito.edu.your_essay_common
 
 class Greeting {
     private val platform: Platform = getPlatform()
